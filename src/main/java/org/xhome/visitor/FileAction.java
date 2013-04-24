@@ -43,9 +43,7 @@ public class FileAction implements Action {
 					FileConfig fileConfig = (FileConfig) clazz.newInstance();
 					String content = fileConfig.content();
 					
-					if (logger.isDebugEnabled()) {
-						logger.debug("load file content of " + content);
-					}
+					logger.debug("load file content of {}", content);
 					
 					Map<String, FileContent> contents = fileContents.get(content);
 					if (contents == null) {
@@ -58,9 +56,7 @@ public class FileAction implements Action {
 							String name = fc.getName();
 							contents.put(name, fc);
 							
-							if (logger.isDebugEnabled()) {
-								logger.debug("load file content of " + content + " with file " + name);
-							}
+							logger.debug("load file content of {}", content + " with file " + name);
 						}
 					}
 				}
@@ -81,9 +77,7 @@ public class FileAction implements Action {
 				FileContent fc = contents.get(file);
 				
 				if (fc != null) {
-					if (logger.isDebugEnabled()) {
-						logger.debug("load file " + file + " from content of " + content);
-					}
+					logger.debug("load file {} from content of {}", file, content);
 					
 					response.setContentType(fc.getType());
 					InputStream in = ClassUtils.getResourceAsStream(fc.getPath(), FileAction.class);
@@ -95,14 +89,10 @@ public class FileAction implements Action {
 						return;
 					}
 				} else {
-					if (logger.isDebugEnabled()) {
-						logger.debug("file " + file + " not exists in the content of " + content);
-					}
+					logger.debug("file {} not exists in the content of ", file, content);
 				}
 			} else {
-				if (logger.isDebugEnabled()) {
-					logger.debug("the content of " + content + " is not exists");
-				}
+				logger.debug("the content of {} is not exists",content);
 			}
 		} else {
 			logger.warn("missing content or file param");

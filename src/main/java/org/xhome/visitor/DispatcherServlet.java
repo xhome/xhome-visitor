@@ -41,16 +41,12 @@ public class DispatcherServlet extends HttpServlet {
 				for(Class<?> clazz : clazzs) {
 					ActionConfig ac = (ActionConfig) clazz.newInstance();
 					Map<String, String> acs = ac.actions();
-					if (logger.isDebugEnabled()) {
-						logger.debug("load action config " + acs);
-					}
+					logger.debug("load action config {}", acs);
 					actions.putAll(acs);
 				}
 			}
 		} catch (Exception e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("fail to load actions", e);
-			}
+			logger.error("fail to load actions", e);
 			throw new ServletException(e.getMessage(), e);
 		}
 	}
@@ -60,32 +56,26 @@ public class DispatcherServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String[] uris = request.getRequestURI().split("/");
 		String at = uris[uris.length - 1];
-		logger.debug("begin process action of " + at);
+		logger.debug("begin process action of {}", at);
 		Action action = actions_cache.get(at);
 		if (action == null) {
 			try {
 				synchronized (this) {
 					if (action == null) {
-						if (logger.isDebugEnabled()) {
-							logger.debug("try to load action of " + at);
-						}
+						logger.debug("try to load action of {}", at);
 						action = (Action) ClassUtils.loadClass(actions.get(at),
 								DispatcherServlet.class).newInstance();
-						if (logger.isDebugEnabled()) {
-							logger.debug("success to load action of " + at);
-						}
+						logger.debug("success to load action of {}", at);
 					}
 				}
 			} catch (Exception e) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("fail to load action of " + at);
-				}
+				logger.error("fail to load action of {}", at);
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				return;
 			}
 		}
 		action.execute(request, response);
-		logger.debug("end process action of " + at);
+		logger.debug("end process action of {}", at);
 	}
 	
 	@Override
