@@ -8,7 +8,7 @@
     <name>xhome-visitor</name>
 
     <properties>
-        <xhome-util.version>1.0</xhome-util.version>
+        <xhome-common.version>1.0</xhome-common.version>
         <slf4j-api.version>1.7.5</slf4j-api.version>
         <junit.version>4.11</junit.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
@@ -20,8 +20,8 @@
     <dependencies>
         <dependency>
             <groupId>org.xhome</groupId>
-            <artifactId>xhome-util</artifactId>
-            <version>${xhome-util.version}</version>
+            <artifactId>xhome-common</artifactId>
+            <version>${xhome-common.version}</version>
             <scope>provided</scope>
         </dependency>
 
